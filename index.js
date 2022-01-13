@@ -9,9 +9,18 @@ if (token === undefined) {
 const bot = new Telegraf(token);
 const chatId = process.env.NODE_CHAT_TEST_ID;
 bot.on("poll_answer", (ctx) => {
-  let msg = `User ${ctx.update.poll_answer.user.first_name} ${ctx.update.poll_answer.user.last_name}, id: ${ctx.update.poll_answer.user.id}`;
+  let msg = "User";
+  if (ctx.update.poll_answer.user.first_name) {
+    msg += ` ${ctx.update.poll_answer.user.first_name}`;
+  }
+  if (ctx.update.poll_answer.user.last_name) {
+    msg += ` ${ctx.update.poll_answer.user.last_name}`;
+  }
   if (ctx.update.poll_answer.user.username) {
     msg += ` @${ctx.update.poll_answer.user.username}`;
+  }
+  if (ctx.update.poll_answer.user.id) {
+    msg += ` ${ctx.update.poll_answer.user.id}`;
   }
 
   if (ctx.update.poll_answer.option_ids.length === 0) {
