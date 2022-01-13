@@ -7,17 +7,17 @@ if (token === undefined) {
   throw new Error("NODE_BOT_TOKEN must be provided!");
 }
 const bot = new Telegraf(token);
-
+const chatId = process.env.NODE_CHAT_TEST_ID;
 bot.on("poll_answer", (ctx) => {
   if (ctx.update.poll_answer.option_ids.length === 0) {
     bot.telegram.sendMessage(
-      -685222374,
+      chatId,
       `User @${ctx.update.poll_answer.user.username} retract vote `
     );
     bot.telegram.messa;
   } else {
     bot.telegram.sendMessage(
-      -685222374,
+      chatId,
       `User @${ctx.update.poll_answer.user.username} answer ${ctx.update.poll_answer.option_ids[0]}`
     );
   }
