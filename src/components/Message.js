@@ -1,7 +1,7 @@
 const { Telegraf } = require("telegraf");
 
-class Poll {
-  async createPoll(text, options) {
+class Message {
+  async createMessage(text) {
     const token = process.env.NODE_BOT_TOKEN;
     let chatId = process.env.NODE_CHAT_ACORNS_ID;
     if (process.env.NODE_ENV === "development") {
@@ -15,10 +15,8 @@ class Poll {
       throw new Error("chatId must be provided!");
     }
     const bot = new Telegraf(token);
-    await bot.telegram.sendPoll(chatId, text, options, {
-      is_anonymous: false,
-    });
+    await bot.telegram.sendMessage(chatId, text);
   }
 }
 
-exports.Poll = Poll;
+exports.Message = Message;
