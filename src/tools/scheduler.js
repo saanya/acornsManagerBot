@@ -22,7 +22,7 @@ const createPoll = async (type) => {
       break;
     case "game":
       let nextGameInfo = await parse.start();
-      if (nextGameInfo) {
+      if (nextGameInfo && nextGameInfo.time.getHours() !== 0) {
         result = await poll.createPoll(
           nextGameInfo.homeTeam +
             " - " +
@@ -37,7 +37,6 @@ const createPoll = async (type) => {
               minute: "numeric",
               second: "numeric",
             }),
-
           ["буду", "мимо"]
         );
       } else {
@@ -52,9 +51,23 @@ const createPoll = async (type) => {
   process.exit(0);
 };
 
+createAudio = async (type) => {
+  let result = false;
+  switch (type) {
+    case "audio":
+      result = await message.audioMessage();
+      break;
+  }
+  console.log(result);
+  process.exit(0);
+};
+
 switch (actType) {
   case "poll":
     createPoll(type);
+    break;
+  case "message":
+    createAudio(type);
     break;
   default:
     console.info("Done.");
