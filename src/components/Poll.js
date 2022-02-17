@@ -34,8 +34,7 @@ class Poll {
         break
       case PollTypeEnum.pollGame:
         let nextGameInfo = await parse.start()
-        // if (nextGameInfo && nextGameInfo.time.getHours() !== 0) {
-        if (nextGameInfo) {
+        if (nextGameInfo && nextGameInfo.time.getHours() !== 0) {
           let gameId = await gameModel.save(
             nextGameInfo.homeTeam,
             nextGameInfo.guestTeam,
@@ -79,7 +78,7 @@ class Poll {
         if (lastGame) {
           let gamePlayers = await gamePlayerModel.getPlayersByGame(lastGame.id)
           console.log(gamePlayers)
-          if (gamePlayers) {
+          if (gamePlayers.length === 0) {
             let playerIds = gamePlayers.map((item) => item.playerId)
             console.log(playerIds)
             let playersData = await playerModel.getByIds(playerIds)

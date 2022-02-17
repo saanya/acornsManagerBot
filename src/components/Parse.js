@@ -55,7 +55,7 @@ class Parse {
       )
       let diffTime = gameDate - currentDate
       let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-      if (diffDays > 0 && diffDays < 12) {
+      if (diffDays > 0 && diffDays < 4) {
         $(item)
           .parent()
           .nextUntil('.tour_title')
