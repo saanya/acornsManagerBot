@@ -78,7 +78,7 @@ class Poll {
         if (lastGame) {
           let gamePlayers = await gamePlayerModel.getPlayersByGame(lastGame.id)
           console.log(gamePlayers)
-          if (gamePlayers.length === 0) {
+          if (gamePlayers.length > 0) {
             let playerIds = gamePlayers.map((item) => item.playerId)
             console.log(playerIds)
             let playersData = await playerModel.getByIds(playerIds)
