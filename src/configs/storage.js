@@ -4,8 +4,8 @@ const mysql = {
   password: process.env.NODE_DB_PASS,
   database: process.env.NODE_DB_NAME,
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: 50,
   queueLimit: 0,
   port: process.env.NODE_DB_PORT,
-};
-exports.mysqlConnection = mysql;
+}
+exports.mysqlConnection = mysql
