@@ -1,91 +1,91 @@
-const needle = require("needle");
-const cheerio = require("cheerio");
+const needle = require('needle')
+const cheerio = require('cheerio')
 
 class Parse {
   async start() {
-    let fdoLinks = await this.getFdoLink();
-    let acornsLeagueLink = await this.getAcornsLeague(fdoLinks);
-    let nextGameInfo = null;
+    let fdoLinks = await this.getFdoLink()
+    let acornsLeagueLink = await this.getAcornsLeague(fdoLinks)
+    let nextGameInfo = null
     if (acornsLeagueLink) {
-      nextGameInfo = await this.getAcornsNextGameInfo(acornsLeagueLink);
+      nextGameInfo = await this.getAcornsNextGameInfo(acornsLeagueLink)
     }
 
-    return nextGameInfo;
+    return nextGameInfo
   }
 
   async getFdoLink() {
-    let result = [];
-    const fdoUrl = "https://fdo.dp.ua/";
-    let resp = await needle("get", fdoUrl);
-    const $ = cheerio.load(resp.body);
+    let result = []
+    const fdoUrl = 'https://fdo.dp.ua/'
+    let resp = await needle('get', fdoUrl)
+    const $ = cheerio.load(resp.body)
 
-    $("#menu-main-menu-1 .menu-item-610")
+    $('#menu-main-menu-1 .menu-item-610')
       .find("a[href*='https']")
       .each((i, item) => {
-        result.push($(item).attr("href"));
-      });
+        result.push($(item).attr('href'))
+      })
 
-    return result;
+    return result
   }
 
   async getAcornsLeague(fdoLinks) {
-    let result = null;
+    let result = null
     for (let fdoLink of fdoLinks) {
-      let resp = await needle("get", fdoLink);
-      const $ = cheerio.load(resp.body);
+      let resp = await needle('get', fdoLink)
+      const $ = cheerio.load(resp.body)
       if ($(".sp-league-table:contains('Acorns')").length > 0) {
-        result = fdoLink;
-        break;
+        result = fdoLink
+        break
       }
     }
 
-    return result;
+    return result
   }
 
   async getAcornsNextGameInfo(link) {
-    let result = null;
-    let resp = await needle("get", link);
-    const $ = cheerio.load(resp.body);
-    let currentDate = new Date();
-    $(".tour_title td").each((i, item) => {
-      let gameDateRow = $(item).text().split(",");
-      gameDateRow = gameDateRow[0].split(".");
+    let result = null
+    let resp = await needle('get', link)
+    const $ = cheerio.load(resp.body)
+    let currentDate = new Date()
+    $('.tour_title td').each((i, item) => {
+      let gameDateRow = $(item).text().split(',')
+      gameDateRow = gameDateRow[0].split('.')
       let gameDate = new Date(
-        gameDateRow[1] + "/" + gameDateRow[0] + "/" + gameDateRow[2]
-      );
-      let diffTime = gameDate - currentDate;
-      let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      if (diffDays > 0 && diffDays < 4) {
+        gameDateRow[1] + '/' + gameDateRow[0] + '/' + gameDateRow[2],
+      )
+      let diffTime = gameDate - currentDate
+      let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      if (diffDays > 0 && diffDays < 12) {
         $(item)
           .parent()
-          .nextUntil(".tour_title")
+          .nextUntil('.tour_title')
           .each((i2, gameItem) => {
             if ($(gameItem).find("a[href*='acorns']").length > 0) {
               let homeTeam = $(gameItem)
-                .find(".team_left a")
+                .find('.team_left a')
                 .text()
-                .replace(/\s/g, "");
+                .replace(/\s/g, '')
               let guestTeam = $(gameItem)
-                .find(".team_right a")
+                .find('.team_right a')
                 .text()
-                .replace(/\s/g, "");
+                .replace(/\s/g, '')
               let gameTimeRow = $(gameItem)
-                .find(".sp-event-status")
+                .find('.sp-event-status')
                 .text()
-                .split(":");
-              gameDate.setHours(gameDate.getHours() + gameTimeRow[0]);
+                .split(':')
+              gameDate.setHours(gameDate.getHours() + gameTimeRow[0])
               result = {
                 homeTeam: homeTeam,
                 guestTeam: guestTeam,
                 time: gameDate,
-              };
+              }
             }
-          });
+          })
       }
-    });
+    })
 
-    return result;
+    return result
   }
 }
 
-exports.Parse = Parse;
+exports.Parse = Parse
