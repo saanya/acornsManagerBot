@@ -49,6 +49,9 @@ class Handler {
         name,
         new Date(),
       )
+      playerData = await playerModel.getByTelegramId(
+        ctx.update.poll_answer.user.id,
+      )
     }
 
     let pollData = await pollModel.getByPollId(ctx.update.poll_answer.poll_id)
