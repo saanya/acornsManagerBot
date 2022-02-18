@@ -10,7 +10,7 @@ const settings = new Settings()
 const bot = new Telegraf(settings.getBotToken())
 bot.on('poll_answer', async (ctx) => {
   try {
-    await handler.pollHandler(ctx, bot, settings.getChatId())
+    await handler.pollHandler(ctx, bot, settings.getTestChatId())
   } catch (error) {
     console.log(error)
   }

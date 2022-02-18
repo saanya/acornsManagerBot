@@ -16,6 +16,10 @@ class Settings {
     return this.#chatId
   }
 
+  getTestChatId() {
+    return telegram.testChatId
+  }
+
   getBotToken() {
     return this.#botToken
   }
