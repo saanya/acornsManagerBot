@@ -91,9 +91,9 @@ class Poll {
                 playersNick +=
                   '[' +
                   playerData.name +
-                  '](tg://user?id=' +
+                  '](tg://user?id="' +
                   playerData.telegramId +
-                  ') '
+                  '") '
               }
             }
             await message.createMessage(
