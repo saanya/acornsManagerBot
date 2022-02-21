@@ -88,7 +88,7 @@ class Poll {
               if (playerData.nickName) {
                 playersNick += `${playerData.nickName} `
               } else {
-                playersNick += `[${playerData.name}](tg://user?id=${playerData.telegramId})`
+                playersNick += `[${playerData.name}](tg://user?id=${playerData.telegramId}) `
               }
             }
             await message.createMessage(
