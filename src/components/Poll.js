@@ -93,7 +93,7 @@ class Poll {
                   playerData.name +
                   '](tg://user?id=' +
                   playerData.telegramId +
-                  ')'
+                  ') '
               }
             }
             await message.createMessage(
